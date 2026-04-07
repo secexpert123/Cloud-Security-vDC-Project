@@ -64,3 +64,16 @@ Ubuntu Active Directory Integration
 Author: Student Cloud ICT Engineer (Learning Project)
 
 Last Updated: March 2026
+
+How to paste this:
+Go to your GitHub repository.
+
+Click on your README.md file.
+
+Click the pencil icon (Edit).
+
+Delete everything currently in the file.
+
+Paste the text I provided above.
+
+Scroll down and click Commit changes.
