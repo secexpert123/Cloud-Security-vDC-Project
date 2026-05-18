@@ -1,38 +1,29 @@
-# Cloud Security: Virtual Datacenter (vDC)
+# Cloud Security: Virtual Datacenter (vDC) Architecture
 
-This project demonstrates a secure, segmented cloud environment built on **Virtuozzo**. It features a "Dual-Network" architecture to isolate management traffic from public web traffic.
+This project demonstrates how to secure a virtual datacenter using network segmentation, dual‑NIC design, and centralized identity management. The environment is deployed on Virtuozzo Cloud and separates public web traffic from internal management and directory services.
 
-## Architecture Design
-* **Dual-NIC Configuration:**
-    * **NIC1 (Web-Net):** Handles public application traffic (10.0.10.0/24).
-    * **NIC2 (Mgmt-Net):** Isolated internal network for Active Directory communication (10.0.20.0/24).
-* **Identity Management:** Centralized Linux user management by joining Ubuntu nodes to a Windows **Active Directory** domain (`group6.local`) using **SSSD** and **Realmd**.
-* **Gatekeeper:** Deployed a **WireGuard VPN** server with IP Forwarding enabled to serve as the single secure entry point for administrators.
+## Architecture Overview
+* **Dual‑NIC Network Segmentation**
+  * **NIC 1 (Web-Net):** Public-facing subnet (`10.0.10.0/24`) for application traffic and Nginx.
+  * **NIC 2 (Mgmt-Net):** Internal subnet (`10.0.20.0/24`) for domain communication, DNS, and administrative access.
+* **Identity Integration:** Ubuntu nodes are joined to a Windows Active Directory domain (`group6.local`) using SSSD and Realmd.
+* **Secure Access:** A WireGuard VPN server provides encrypted access for administrators.
 
-## Security Implementations
-* **Security Groups:** Created `sg-web` (Port 80) and `sg-ad` (DNS/AD Protocols) to act as cloud-level firewalls.
-* **Access Control:** Restricted SSH access to specific Floating IP ranges.
-* **Automation:** Enabled PAM (Pluggable Authentication Modules) to automatically create home directories for AD users on Linux login.
+## Security Controls
+* **Interface-Based Firewalls:** UFW rules applied per interface to separate web, DNS/AD, and VPN traffic.
+* **Security Groups:** `sg-web` for HTTP traffic and `sg-ad` for DNS/AD protocols.
+* **SSH Hardening:** Root login disabled and access restricted to approved Floating IP ranges.
+* **User Session Handling:** PAM configured to create home directories for AD users on login.
 
 ## Tech Stack
-* **Platform:** Virtuozzo Cloud
-* **Operating Systems:** Ubuntu 22.04 LTS, Windows Server 2022
-* **Security & VPN:** WireGuard, UFW, Security Groups
-* **Identity:** Active Directory, SSSD, Kerberos, Realmd
-* **Web:** Nginx
+* **Platform:** Virtuozzo Cloud  
+* **OS:** Ubuntu 22.04 LTS, Windows Server 2022  
+* **Security:** WireGuard, UFW, Security Groups  
+* **Identity:** Active Directory, SSSD, Kerberos, Realmd  
+* **Web:** Nginx  
 
-## What I Learned
-- Network segmentation and security best practices.
-- Active Directory integration with Linux systems.
-- VPN configuration and secure access control.
-- Cloud infrastructure security.
-
-## Resources Used
-- [WireGuard Documentation](https://www.wireguard.com/)
-- [SSSD Documentation](https://sssd.io/)
-- [Ubuntu Active Directory Integration](https://ubuntu.com/server/docs)
-
----
-
-**Author**: Student Cloud ICT Engineer (Learning Project)  
-**Last Updated**: March 2026
+## Engineering Outcomes
+- Designed a segmented cloud network with isolated public and management zones.  
+- Integrated Linux systems with Active Directory for centralized authentication.  
+- Configured secure VPN access for remote administration.  
+- Applied practical host-level and cloud-level security controls.  
